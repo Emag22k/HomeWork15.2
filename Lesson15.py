@@ -10,11 +10,12 @@ bot=telebot.TeleBot('7838544838:AAG3Sd4H8_XNguLIAagqFrbkOCZfCvzdOOA')
 @bot.message_handler(commands=["start"])
 def start(message):
     user_id=message.from_user.id
+    products =db.get_pr_buttons()
     if db.rechek(user_id):
-        bot.send_message(user_id, "Привет!")
+        bot.send_message(user_id, "Привет! Выберите пунк меню", reply_markup=butt.main_menu(products))
     else:
         bot.send_message(user_id, "Привет! Давайте начем регистрацию!\n"
-                                              "Введите ваше Имя!")
+                                              "Введите ваше Имя!", reply_markup=telebot.types.ReplyKeyboardRemove())
         bot.register_next_step_handler(message, get_name)
 
 
